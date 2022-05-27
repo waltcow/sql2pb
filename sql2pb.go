@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"flag"
 	"fmt"
-	"github.com/Mikaelemmmm/sql2pb/core"
+	"github.com/waltcow/sql2pb/core"
 	"log"
 	"strings"
 
@@ -23,10 +23,11 @@ func main() {
 	packageName := flag.String("package", *schema, "the protocol buffer package. defaults to the database schema.")
 	goPackageName := flag.String("go_package", "", "the protocol buffer go_package. defaults to the database schema.")
 	ignoreTableStr := flag.String("ignore_tables", "", "a comma spaced list of tables to ignore")
+	emitConverterCode := flag.Bool("converter", false, "emit converter code")
 
 	flag.Parse()
 
-	if *schema == ""{
+	if *schema == "" {
 		fmt.Println(" - please input the database schema ")
 		return
 	}
@@ -41,13 +42,19 @@ func main() {
 
 	ignoreTables := strings.Split(*ignoreTableStr, ",")
 
-	s, err := core.GenerateSchema(db, *table,ignoreTables,*serviceName, *goPackageName, *packageName )
+	s, err := core.GenerateSchema(db, *table, ignoreTables, *serviceName, *goPackageName, *packageName)
 
 	if nil != err {
 		log.Fatal(err)
 	}
 
 	if nil != s {
-		fmt.Println(s)
+		var outFile string
+		if *emitConverterCode {
+			outFile = s.StringForConverter()
+		} else {
+			outFile = s.String()
+		}
+		fmt.Println(outFile)
 	}
 }

@@ -1,4 +1,4 @@
-module github.com/Mikaelemmmm/sql2pb
+module github.com/waltcow/sql2pb
 
 go 1.18
 

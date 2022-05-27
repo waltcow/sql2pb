@@ -5,7 +5,7 @@ Generates a protobuf file from your mysql database.
 ### Uses
 #### Use from the command line:
 
-`go install github.com/Mikaelemmmm/sql2pb@latest`
+`go install github.com/waltcow/sql2pb@latest`
 
 ```
 $ sql2pb -h
@@ -45,7 +45,7 @@ $ sql2pb -go_package ./pb -host localhost -package pb -password root -port 3306 
 #### Use as an imported library
 
 ```sh
-$ go get -u github.com/Mikaelemmmm/sql2pb@latest
+$ go get -u github.com/waltcow/sql2pb@latest
 ```
 
 ```go
@@ -54,7 +54,7 @@ package main
 import (
 	"database/sql"
 	"fmt"
-	"github.com/Mikaelemmmm/sql2pb/core"
+	"github.com/waltcow/sql2pb/core"
 	_ "github.com/go-sql-driver/mysql"
 	"log"
 )
