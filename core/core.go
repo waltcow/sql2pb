@@ -210,13 +210,18 @@ func (s *Schema) AppendImport(imports string) {
 
 }
 
-func (s *Schema) StringForConverter(pbPath, modelPath string) string {
+func (s *Schema) StringForConverter(pbPath, modelPath, generatePath string) string {
 	buf := new(bytes.Buffer)
-	buf.WriteString("package converter \n")
+	buf.WriteString("package converter")
+	buf.WriteString("\n\n")
 	buf.WriteString(fmt.Sprintf(""+
 		"import (\n\t\"time\"\n\t\"%s\"\n\t\"%s\"\n)"+
 		"\n\n", pbPath, modelPath))
 
+	buf.WriteString(fmt.Sprintf("//go:generate go run github.com/jmattheis/goverter/cmd/goverter \"%s\"", generatePath))
+
+	buf.WriteString("\n\n")
+	buf.WriteString("// goverter:converter\n")
 	buf.WriteString("// goverter:extend ConvertTimeToUnixInt64\n")
 	buf.WriteString("type Converter interface {")
 	buf.WriteString("\n")
