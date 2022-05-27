@@ -210,21 +210,26 @@ func (s *Schema) AppendImport(imports string) {
 
 }
 
-func (s *Schema) StringForConverter() string {
+func (s *Schema) StringForConverter(pbPath, modelPath string) string {
 	buf := new(bytes.Buffer)
-	buf.WriteString("package converter")
-	buf.WriteString("\n")
+	buf.WriteString("package converter \n")
+	buf.WriteString(fmt.Sprintf(""+
+		"import (\n\t\"time\"\n\t\"%s\"\n\t\"%s\"\n)"+
+		"", pbPath, modelPath))
+
+	buf.WriteString("// goverter:extend ConvertTimeToUnixInt64\n")
 	buf.WriteString("type Converter interface {")
 	buf.WriteString("\n")
 	for _, m := range s.Messages {
-		buf.WriteString("\t// goverter:ignore state sizeCache unknownFields")
-		buf.WriteString(fmt.Sprintf("\tConvert%s(source *model.%s) *pb.%s", m.Name, m.Name, m.Name))
+		buf.WriteString("\t// goverter:ignore state sizeCache unknownFields \n")
+		buf.WriteString(fmt.Sprintf("\tConvert%s(source *model.%s) *pb.%s \n", m.Name, m.Name, m.Name))
+		buf.WriteString(fmt.Sprintf("\tConvert%sList(source []*model.%s) []*pb.%s \n", m.Name, m.Name, m.Name))
 		buf.WriteString("\n")
-		buf.WriteString(fmt.Sprintf("\tConvert%sList(source []*model.%s) []*pb.%s", m.Name, m.Name, m.Name))
 	}
 	buf.WriteString("\n")
-	buf.WriteString("}")
+	buf.WriteString("} \n")
 
+	buf.WriteString("func ConvertTimeToUnixInt64(time time.Time) int64 {\n\treturn time.Unix()\n}")
 	return buf.String()
 }
 

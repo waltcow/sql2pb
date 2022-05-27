@@ -24,6 +24,8 @@ func main() {
 	goPackageName := flag.String("go_package", "", "the protocol buffer go_package. defaults to the database schema.")
 	ignoreTableStr := flag.String("ignore_tables", "", "a comma spaced list of tables to ignore")
 	emitConverterCode := flag.Bool("converter", false, "emit converter code")
+	emitConverterPbPath := flag.String("converter_deps_pb", "", "emit converter package dependencies pb path")
+	emitConverterModelPath := flag.String("converter_deps_model", "", "emit converter package dependencies model path")
 
 	flag.Parse()
 
@@ -51,7 +53,7 @@ func main() {
 	if nil != s {
 		var outFile string
 		if *emitConverterCode {
-			outFile = s.StringForConverter()
+			outFile = s.StringForConverter(*emitConverterPbPath, *emitConverterModelPath)
 		} else {
 			outFile = s.String()
 		}
