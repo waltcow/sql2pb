@@ -215,7 +215,7 @@ func (s *Schema) StringForConverter(pbPath, modelPath string) string {
 	buf.WriteString("package converter \n")
 	buf.WriteString(fmt.Sprintf(""+
 		"import (\n\t\"time\"\n\t\"%s\"\n\t\"%s\"\n)"+
-		"", pbPath, modelPath))
+		"\n\n", pbPath, modelPath))
 
 	buf.WriteString("// goverter:extend ConvertTimeToUnixInt64\n")
 	buf.WriteString("type Converter interface {")
@@ -386,8 +386,8 @@ type Message struct {
 
 //gen default message
 func (m Message) GenDefaultMessage(buf *bytes.Buffer) {
-	mOrginName := m.Name
-	mOrginFields := m.Fields
+	mOriginName := m.Name
+	mOriginFields := m.Fields
 
 	curFields := []MessageField{}
 	var filedTag int
@@ -407,17 +407,17 @@ func (m Message) GenDefaultMessage(buf *bytes.Buffer) {
 	buf.WriteString(fmt.Sprintf("%s\n", m))
 
 	//reset
-	m.Name = mOrginName
-	m.Fields = mOrginFields
+	m.Name = mOriginName
+	m.Fields = mOriginFields
 }
 
 //gen add req message
 func (m Message) GenRpcAddReqRespMessage(buf *bytes.Buffer) {
-	mOrginName := m.Name
-	mOrginFields := m.Fields
+	mOriginName := m.Name
+	mOriginFields := m.Fields
 
 	//req
-	m.Name = "Add" + mOrginName + "Req"
+	m.Name = "Add" + mOriginName + "Req"
 	curFields := []MessageField{}
 	var filedTag int
 	for _, field := range m.Fields {
@@ -436,26 +436,26 @@ func (m Message) GenRpcAddReqRespMessage(buf *bytes.Buffer) {
 	buf.WriteString(fmt.Sprintf("%s\n", m))
 
 	//reset
-	m.Name = mOrginName
-	m.Fields = mOrginFields
+	m.Name = mOriginName
+	m.Fields = mOriginFields
 
 	//resp
-	m.Name = "Add" + mOrginName + "Resp"
+	m.Name = "Add" + mOriginName + "Resp"
 	m.Fields = []MessageField{}
 	buf.WriteString(fmt.Sprintf("%s\n", m))
 
 	//reset
-	m.Name = mOrginName
-	m.Fields = mOrginFields
+	m.Name = mOriginName
+	m.Fields = mOriginFields
 
 }
 
 //gen add resp message
 func (m Message) GenRpcUpdateReqMessage(buf *bytes.Buffer) {
-	mOrginName := m.Name
-	mOrginFields := m.Fields
+	mOriginName := m.Name
+	mOriginFields := m.Fields
 
-	m.Name = "Update" + mOrginName + "Req"
+	m.Name = "Update" + mOriginName + "Req"
 	curFields := []MessageField{}
 	var filedTag int
 	for _, field := range m.Fields {
@@ -474,78 +474,78 @@ func (m Message) GenRpcUpdateReqMessage(buf *bytes.Buffer) {
 	buf.WriteString(fmt.Sprintf("%s\n", m))
 
 	//reset
-	m.Name = mOrginName
-	m.Fields = mOrginFields
+	m.Name = mOriginName
+	m.Fields = mOriginFields
 
 	//resp
-	m.Name = "Update" + mOrginName + "Resp"
+	m.Name = "Update" + mOriginName + "Resp"
 	m.Fields = []MessageField{}
 	buf.WriteString(fmt.Sprintf("%s\n", m))
 
 	//reset
-	m.Name = mOrginName
-	m.Fields = mOrginFields
+	m.Name = mOriginName
+	m.Fields = mOriginFields
 }
 
 //gen add resp message
 func (m Message) GenRpcDelReqMessage(buf *bytes.Buffer) {
-	mOrginName := m.Name
-	mOrginFields := m.Fields
+	mOriginName := m.Name
+	mOriginFields := m.Fields
 
-	m.Name = "Del" + mOrginName + "Req"
+	m.Name = "Del" + mOriginName + "Req"
 	m.Fields = []MessageField{
 		{Name: "id", Typ: "int64", tag: 1, Comment: "id"},
 	}
 	buf.WriteString(fmt.Sprintf("%s\n", m))
 
 	//reset
-	m.Name = mOrginName
-	m.Fields = mOrginFields
+	m.Name = mOriginName
+	m.Fields = mOriginFields
 
 	//resp
-	m.Name = "Del" + mOrginName + "Resp"
+	m.Name = "Del" + mOriginName + "Resp"
 	m.Fields = []MessageField{}
 	buf.WriteString(fmt.Sprintf("%s\n", m))
 
 	//reset
-	m.Name = mOrginName
-	m.Fields = mOrginFields
+	m.Name = mOriginName
+	m.Fields = mOriginFields
 }
 
 //gen add resp message
 func (m Message) GenRpcGetByIdReqMessage(buf *bytes.Buffer) {
-	mOrginName := m.Name
-	mOrginFields := m.Fields
+	mOriginName := m.Name
+	mOriginFields := m.Fields
 
-	m.Name = "Get" + mOrginName + "ByIdReq"
+	m.Name = "Get" + mOriginName + "ByIdReq"
 	m.Fields = []MessageField{
 		{Name: "id", Typ: "int64", tag: 1, Comment: "id"},
 	}
 	buf.WriteString(fmt.Sprintf("%s\n", m))
 
 	//reset
-	m.Name = mOrginName
-	m.Fields = mOrginFields
+	m.Name = mOriginName
+	m.Fields = mOriginFields
 
 	//resp
 	firstWord := strings.ToLower(string(m.Name[0]))
-	m.Name = "Get" + mOrginName + "ByIdResp"
+	m.Name = "Get" + mOriginName + "ByIdResp"
 	m.Fields = []MessageField{
-		{Typ: mOrginName, Name: stringx.From(firstWord + mOrginName[1:]).ToCamelWithStartLower(), tag: 1, Comment: stringx.From(firstWord + mOrginName[1:]).ToCamelWithStartLower()},
+		{Typ: mOriginName, Name: stringx.From(firstWord + mOriginName[1:]).ToCamelWithStartLower(), tag: 1, Comment: stringx.From(firstWord + mOriginName[1:]).ToCamelWithStartLower()},
 	}
 	buf.WriteString(fmt.Sprintf("%s\n", m))
 
 	//reset
-	m.Name = mOrginName
-	m.Fields = mOrginFields
+	m.Name = mOriginName
+	m.Fields = mOriginFields
 }
 
 //gen add resp message
 func (m Message) GenRpcSearchReqMessage(buf *bytes.Buffer) {
-	mOrginName := m.Name
-	mOrginFields := m.Fields
+	mOriginName := m.Name
+	mOriginFields := m.Fields
 
-	m.Name = "Search" + mOrginName + "Req"
+	m.Name = "Search" + mOriginName + "Req"
 	curFields := []MessageField{
 		{Typ: "int64", Name: "page", tag: 1, Comment: "page"},
 		{Typ: "int64", Name: "pageSize", tag: 2, Comment: "pageSize"},
@@ -567,21 +567,21 @@ func (m Message) GenRpcSearchReqMessage(buf *bytes.Buffer) {
 	buf.WriteString(fmt.Sprintf("%s\n", m))
 
 	//reset
-	m.Name = mOrginName
-	m.Fields = mOrginFields
+	m.Name = mOriginName
+	m.Fields = mOriginFields
 
 	//resp
 	firstWord := strings.ToLower(string(m.Name[0]))
-	m.Name = "Search" + mOrginName + "Resp"
+	m.Name = "Search" + mOriginName + "Resp"
 	m.Fields = []MessageField{
-		{Typ: "repeated " + mOrginName, Name: stringx.From(firstWord + mOrginName[1:]).ToCamelWithStartLower(), tag: 1, Comment: stringx.From(firstWord + mOrginName[1:]).ToCamelWithStartLower()},
+		{Typ: "repeated " + mOriginName, Name: stringx.From(firstWord + mOriginName[1:]).ToCamelWithStartLower(), tag: 1, Comment: stringx.From(firstWord + mOriginName[1:]).ToCamelWithStartLower()},
 		{Typ: "int64", Name: "total", tag: 2, Comment: "total"},
 	}
 	buf.WriteString(fmt.Sprintf("%s\n", m))
 
 	//reset
-	m.Name = mOrginName
-	m.Fields = mOrginFields
+	m.Name = mOriginName
+	m.Fields = mOriginFields
 }
 
 // String returns a string representation of a Message.
