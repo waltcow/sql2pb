@@ -665,7 +665,7 @@ func parseColumn(s *Schema, msg *Message, col Column) error {
 	var fieldType string
 
 	switch typ {
-	case "char", "varchar", "text", "longtext", "mediumtext", "tinytext":
+	case "char", "varchar", "text", "longtext", "mediumtext", "tinytext", "json":
 		fieldType = "string"
 	case "enum", "set":
 		// Parse c.ColumnType to get the enum list
